@@ -4,7 +4,9 @@
 using namespace std;
 
 int main(){
-	cout << "Bytes \t Min \t Max" 
-		<< endl << numeric_limits<short>::lowest() 
-		<< numeric_limits<short>::max();
+	cout << "Min \t Max \t Bytes" << endl
+		<< numeric_limits<short>::lowest() << "\t"
+		<< numeric_limits<short>::max() << "\t"
+		<< sizeof(short);
+
 }
