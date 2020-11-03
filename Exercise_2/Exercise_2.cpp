@@ -9,6 +9,12 @@ using namespace std;
 
 
 //Add definintion of function my_swap
+void my_swap(char* p1, char* p2) {
+    char h;
+    h = *p1;
+    *p1 = *p2;
+    *p2 = h;
+}
 
 
 int main() {
