@@ -1,3 +1,8 @@
+/**************************************************
+ * TNG033: Lesson 1                                *
+ * Exercise 1                                      *
+ * *************************************************/
+
 #include <limits>
 #include <iostream>
 #include <iomanip>
@@ -89,6 +94,4 @@ int main() {
 
 	// Results in Larger. Compiler gives warning:
 	// comparison of integers of different signs : 'int' and 'unsigned int'
-
-
 }
