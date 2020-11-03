@@ -1,2 +1,2 @@
-# Exercises_1
+# Exercises set 1
 First set of exercises
