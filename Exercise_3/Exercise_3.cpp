@@ -12,8 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-
-// using namespace std;
+#include <vector>
 
 /****************************************
  * Function declarations                *
@@ -22,45 +21,35 @@
  // Re-set the stream in to good state
 void clean_up_stream(std::istream& in);
 
-// Read a sequence of integers and store them in array V
-// array V can store at most n values
-// Return number of ints read and stored in V
-int read_seq(int V[], int n);
+// Read a sequence of integers and store them in a vector
+// Return a vector with the sequence read
+std::vector<int> read_seq();
 
-// Merge sequence S1 with S2 and store the result in S3
-// Return number of values stored in S3
-// Assume array S3 has enough slots to store the merged sequence
-int merge_seq(const int S1[], int n1, const int S2[], int n2, int S3[]);
+// Merge S1 with S2
+// Return a vector with the merged sequence, without repetitions
+// Vectors S1 and S2 are sorted
+std::vector<int> merge_seq(const std::vector<int>& S1, const std::vector<int>& S2);
 
-// Display the values stored in array V
-// Array V stores n values
-void display_seq(const int V[], int n);
+// Display the values stored in vector V
+void display_seq(const std::vector<int>& S);
 
 /**************************
  * MAIN                   *
  **************************/
 
 int main() {
-    constexpr int kSize = 100;
-
-    int seq1[kSize] = { 0 };
-
     std::cout << "Enter sequence 1: ";
-    auto howMany1 = read_seq(seq1, kSize);
+    std::vector<int> seq1 = read_seq();
 
-    int seq2[kSize] = { 0 };
+    clean_up_stream(std::cin);
 
-    std::cout << "Enter sequence 2: ";
-    auto howMany2 = read_seq(seq2, kSize);
+    std::cout << "\nEnter sequence 2: ";
+    std::vector<int> seq2 = read_seq();
 
-    int seq3[2 * kSize] = { 0 };
-
-    auto howMany3 = merge_seq(seq1, howMany1, seq2, howMany2, seq3);
+    std::vector<int> seq3 = merge_seq(seq1, seq2);
 
     std::cout << "\nMerged sequence: ";
-    display_seq(seq3, howMany3);
-
-    return 0;
+    display_seq(seq3);
 }
 
 /*************************************
@@ -76,39 +65,84 @@ void clean_up_stream(std::istream& in) {
     std::getline(in, trash);
 }
 
-// Read a sequence of integers from cin and store them in array V
-// array V can store at most n values
-// Return number of ints read and stored in V
-int read_seq(int V[], int n) {
-    auto counter = int{ 0 };
+// Read a sequence of integers and store them in a vector
+// Return a vector with the sequence read
+std::vector<int> read_seq() {
+    std::vector<int> S;
 
-    while (counter < n &&           // stop reading if all slots of array V are occupied
-        std::cin >> V[counter])  // stop reading when a non-numeric value is entered
-    {
-        ++counter;
+    int value;
+    while (std::cin >> value) {
+        S.push_back(value);
     }
 
-    // Put the stream back to good state
-    clean_up_stream(std::cin);
-
-    return counter;
+    return S;
 }
 
-// Arrays S1 and S1 are sorted
-// Merge S1 with S2 and store the result in S3
-// Return number of values stored in S3
-int merge_seq(const int S1[], int n1, const int S2[], int n2, int S3[]) {
+// Merge S1 with S2
+// Return a vector with the merged sequence, without repetitions
+// Vectors S1 and S2 are sorted
+std::vector<int> merge_seq(const std::vector<int>& S1, const std::vector<int>& S2) {
+    std::vector<int> S3;  // to store the merged sequence
 
-    //ADD CODE
+    std::size_t c1 = 0;
+    std::size_t c2 = 0;
 
-    return 0; //delete this
+    while (c1 < S1.size() && c2 < S2.size()) {
+        if (S1[c1] < S2[c2]) {
+            S3.push_back(S1[c1]);
+            ++c1;
+        }
+        else if (S1[c1] > S2[c2]) {
+            S3.push_back(S2[c2]);
+            ++c2;
+        }
+        else {
+            S3.push_back(S1[c1]);
+            ++c1;
+            ++c2;
+        }
+    }
+
+    while (c1 < S1.size()) {
+        S3.push_back(S1[c1]);
+        ++c1;
+    }
+
+    while (c2 < S2.size()) {
+        S3.push_back(S2[c2]);
+        ++c2;
+    }
+
+
+
+    // First attempt
+    //S3 = S1;
+    //for (int i : S3) {
+    //    int u = 0;
+    //    if (i != S2[u]) {
+    //        S3.push_back(S2[u]);
+    //    }
+    //    u++;
+    //}
+
+    //for (int& e1 : S3) {
+    //    for (int& e2 : S3) {
+    //        if (e2 > e1) {
+    //            // swap
+    //            int temp = e1;
+    //            e1 = e2;
+    //            e2 = temp;
+    //        }
+    //    }
+    //}
+
+    return S3;
 }
 
-// Display the values stored in array V
-// Array V stores n values
-void display_seq(const int V[], int n) {
-    for (auto i = 0; i < n; i++) {
-        std::cout << V[i] << " ";
+// Display the values stored in vector V
+void display_seq(const std::vector<int>& S) {
+    for (int v : S) {
+        std::cout << v << " ";
     }
 
     std::cout << '\n';
