@@ -134,17 +134,33 @@ my_vector& my_vector::operator=(my_vector rhs) {
 
 // Appends the given value to the end of the container
 void my_vector::push_back(double value) {
-    // ADD CODE
+    if (size() == capacity()) {
+        reserve(capacity() + 1);
+    }
+    array[_size++] = value;
 }
 
 // Removes the last element of the container
 void my_vector::pop_back() {
-    // ADD CODE
+    if (size() > 0) {
+        --_size;
+    }
 }
 
 // Inserts value before pos
 void my_vector::insert(std::size_t pos, double value) {
-    // ADD CODE
+    if (size() == capacity()) {
+        // If the array storing the elements is full then grow it
+        reserve(2 * capacity());
+    }
+
+    // shift all items from pos one slot to the right
+    for (std::size_t i = size(); i > pos; --i) {
+        array[i] = array[i - 1];
+    }
+
+    array[pos] = value;
+    ++_size;
 }
 
 // Removes the element at pos
@@ -156,7 +172,19 @@ void my_vector::erase(std::size_t pos) {
 // If n is greater than the current capacity(), new storage is allocated
 // Otherwise, the function does nothing
 void my_vector::reserve(std::size_t n) {
-    // ADD CODE
+    if (n <= capacity()) {
+        return;
+    }
+
+    double* old_array = array;
+    array = new double[n];
+    _capacity = n;
+
+    for (std::size_t i = 0; i < size(); ++i) {
+        array[i] = old_array[i];
+    }
+
+    delete[] old_array;
 }
 
 // Overloaded operators to compare the contents of two containers
