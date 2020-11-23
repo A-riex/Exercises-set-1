@@ -9,7 +9,7 @@
 
  // Return the median of n integers generated randomly
 double median_n(int n) {
-    int* A = new int[n];
+    int* A = new int[n]; 
 
     for (int i = 0; i < n; ++i) {
         A[i] = std::rand();
