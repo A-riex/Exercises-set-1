@@ -91,29 +91,43 @@ private:
  * ****************************** */
 
  // Deafult constructor
-my_vector::my_vector() {  // By default, set capacity to 2
-    // ADD CODE
+my_vector::my_vector() : my_vector(2) {  // By default, set capacity to 2
+    _size = 0;
 }
 
 // Constructs a container with count copies of value
-my_vector::my_vector(std::size_t count, double value) {
-    // ADD CODE
+my_vector::my_vector(std::size_t count, double value) 
+    : array{ new double[count] }, _size{ count }, _capacity{count} {
+    
+    for (int i = 0; i < _capacity; i++) {
+        array[i] = value;
+    }
 }
 
 // Copy constructor
-my_vector::my_vector(const my_vector& v) {
-    // ADD CODE
+my_vector::my_vector(const my_vector& v)
+    : array{ new double[v.capacity()] }, _size{ v.size() }, _capacity{ v.capacity() } {
+
+     for (std::size_t i = 0; i < size(); ++i) {
+        array[i] = v.array[i];
+    }
+    
 }
 
 // Destructor
 my_vector::~my_vector() {
-    // ADD CODE
+    delete[] array;
+    array = nullptr;
+    _size = 0;
+    _capacity = 0;
 }
 
 // Assignment operator
 // Implemented with the copy-and-swap idiom as in lecture 6
 my_vector& my_vector::operator=(my_vector rhs) {
-    // ADD CODE
+    std::swap(array, rhs.array);
+    std::swap(_size, rhs._size);
+    std::swap(_capacity, rhs._capacity);
 
     return *this;
 }
