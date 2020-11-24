@@ -165,7 +165,11 @@ void my_vector::insert(std::size_t pos, double value) {
 
 // Removes the element at pos
 void my_vector::erase(std::size_t pos) {
-    // ADD CODE
+    for (std::size_t i = pos + 1; i < size(); i++) {
+        array[i - 1] = array[i];
+    }
+
+    --_size;
 }
 
 // Increase the capacity of the container to n
